@@ -1,0 +1,38 @@
+Mountain village and city edition
+
+Built using ARM bare-metal GCC with -Wall -Wextra -Werror.
+Executed the final 1 MiB ROM in the mGBA 0.10.2 core.
+All 29 checks passed: animated title waits for Start, A does not skip the title,
+spawn, 60 updates in 60 video frames, walking speed, running speed, pause,
+Select reset, four-direction movement, two building collision checks, river collision,
+both bridge crossings, the curved plaza, the continuous rock wall from both
+directions, rejecting entry from the window edge, entering through the actual
+red-roof doorway, interior furniture collision, returning through the interior
+door, walking into the glass-building gym, collision for all three gym machines,
+returning through the gym door, pond collision, raised cliff collision and
+forest boundary.
+
+Inspected emulator captures at the city intersection, western village,
+building collision point, pond, and pause menu. Character artwork hash unchanged.
+The supplied crisp replacement map is the active source and is sampled to the
+1208x648 world with hard pixel edges. A collision overlay review confirmed its
+roads, bridge, water and major footprints; the western house bounds were aligned
+to the replacement artwork and the tall far-right facade remains fully solid.
+The top-left curved stone plaza and lower bridge have dedicated traversal checks
+while the adjacent river and forest remain solid. The approved upper and lower
+mountain sections are joined into one visible north-south cliff. Dedicated tests
+confirm that the player cannot cross it from either side.
+Map collision is authored manually at 4-pixel resolution, including major
+buildings, cliffs, forest, water and fences. Small painted props are decorative.
+Map is flattened artwork, so roofs are solid rather than separate foregrounds.
+The opening panorama, simple seven-color orange car sprite without an added body outline, fixed tyre silhouettes with four-frame hub markers, moving
+road streaks, Start prompt, fade-out and fade-in run inside the ROM. The town label and recognizable
+franchise-specific building emblems were removed from the active map. The
+red-roof house uses a separate original 240x160 interior, palette, collision
+map, fade transition and return doorway. The blue glass building has its own
+supplied recreation-center interior converted to 240x160, a matching palette,
+collision for the weight bench, treadmill and exercise frame, and a two-way door
+transition. No sign interactions. No physical GBA test performed.
+
+ROM SHA-256: a337e153d36fb1f114cbabffd607ada6eb808ebbc9e1077714cfbf9180c87840
+Character PNG SHA-256: 4b3b80732a031b29babd9eb75584b38c61715315e9efa0dab24d7747f3117e10

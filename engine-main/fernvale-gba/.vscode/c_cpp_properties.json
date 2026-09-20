@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "name": "GBA",
+      "includePath": ["${workspaceFolder}/source"],
+      "defines": ["__GBA__"],
+      "cStandard": "c11",
+      "intelliSenseMode": "gcc-arm"
+    }
+  ],
+  "version": 4
+}

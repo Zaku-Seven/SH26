@@ -1,0 +1,8 @@
+.venv/
+drive/
+engine/fernvale-gba/build/
+engine-main/fernvale-gba/build/
+**/__pycache__/
+*.sav
+*.ss0
+*.ss1
