@@ -267,12 +267,14 @@ int main(void)
     for(;;) {
         unsigned keys=(~KEYINPUT)&1023,pressed=keys&~previous;
         int finished;
+        int was_talking=dlg_active();
         previous=keys;
-        if(dlg_active())
+        if(was_talking)
             dlg_update(pressed);
         else if(pressed&KEY_START && story_mode()==MODE_PLAY)
             paused=!paused;
-        if(!dlg_active()&&!paused) {
+        /* Closing a box with A must not immediately reopen the same line. */
+        if(!dlg_active()&&!paused&&!was_talking) {
             if(story_mode()!=MODE_PLAY)
                 story_update(keys,pressed);
             else if(!current_area&&(keys&KEY_UP)

@@ -97,7 +97,7 @@ int story_hide_player(void) { return g_mode == MODE_DRIVE || g_mode == MODE_STAG
 int story_can_leave_house(void) { return flags_has(F_HAS_LAPTOP); }
 int story_house_is_jib(void)
 {
-    return flags_has(F_QUEST_JIB) && !flags_has(F_JIB_JOINED);
+    return !flags_has(F_JIB_JOINED);
 }
 
 void story_remember_step(void)
@@ -197,15 +197,17 @@ int story_try_interact(int area, int world_x, int world_y)
             if (!flags_has(F_HAS_LAPTOP)) return SCRIPT_LAPTOP;
             return SCRIPT_NOTES;
         }
-        if (in_rect(world_x, world_y, 10, 30, 75, 80)) {
+        /* Bookcase / fridge — keep this above the bed so they do not overlap. */
+        if (in_rect(world_x, world_y, 12, 28, 64, 58)) {
             if (flags_has(F_QUEST_JIB) && !flags_has(F_HAS_DRINK))
                 return SCRIPT_FRIDGE;
             if (flags_has(F_HAS_DRINK)) return SCRIPT_FRIDGE_EMPTY;
             return SCRIPT_BOOKS;
         }
-        if (in_rect(world_x, world_y, 10, 50, 80, 130)) {
-            if (flags_has(F_HAS_DRINK) && !flags_has(F_JIB_JOINED))
-                return SCRIPT_JIB_WAKE;
+        /* Small left bed only. Do not cover the rug spawn or the door. */
+        if (in_rect(world_x, world_y, 12, 58, 64, 88)) {
+            if (flags_has(F_JIB_JOINED)) return SCRIPT_NONE;
+            if (flags_has(F_HAS_DRINK)) return SCRIPT_JIB_WAKE;
             return SCRIPT_JIB_SLEEP;
         }
         return SCRIPT_NONE;
@@ -486,6 +488,11 @@ void story_draw(volatile unsigned short *page)
     if (g_mode == MODE_BENCH) draw_bench(page);
     if (g_mode == MODE_WHEEL) draw_wheel(page);
     if (g_mode == MODE_MASH && !dlg_active()) draw_mash(page);
+    if (current_area == 1 && story_house_is_jib()) {
+        fill(page, 22, 62, 22, 10, 252);
+        fill(page, 24, 64, 18, 6, 190);
+        text_at(page, 48, 40, "ZZZ");
+    }
     if (dlg_active()) draw_box(page);
 }
 
@@ -516,9 +523,9 @@ void story_draw_actors(volatile unsigned short *oam)
     if (current_area == 1 && story_house_is_jib()) {
         hide = 0;
         jib_on = 1;
-        jib_x = 36;
-        jib_y = 90;
-        jib_f = 0;
+        jib_x = 34;
+        jib_y = 72;
+        jib_f = 2;
         camera_x = camera_y = 0;
     } else if (current_area == 2 && flags_has(F_JIB_JOINED) && !flags_has(F_NICK_JOINED)) {
         hide = 0;
